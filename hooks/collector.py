@@ -80,6 +80,11 @@ class BasicSceneCollector(HookBaseClass):
                     "icon": self._get_icon_path("alias.png"),
                     "item_type": "file.alias",
                 },
+                "BGEO Cache": {
+                    "extensions": ["bgeo", "sc"],
+                    "icon": self._get_icon_path("bgeo.png"),
+                    "item_type": "file.bgeo",
+                },
                 "Alembic Cache": {
                     "extensions": ["abc"],
                     "icon": self._get_icon_path("alembic.png"),
