@@ -81,7 +81,7 @@ class BasicSceneCollector(HookBaseClass):
                     "item_type": "file.alias",
                 },
                 "BGEO Cache": {
-                    "extensions": ["bgeo", "sc"],
+                    "extensions": ["bgeo"],
                     "icon": self._get_icon_path("file.png"),
                     "item_type": "file.bgeo",
                 },
