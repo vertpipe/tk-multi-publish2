@@ -82,7 +82,7 @@ class BasicSceneCollector(HookBaseClass):
                 },
                 "BGEO Cache": {
                     "extensions": ["bgeo"],
-                    "icon": self._get_icon_path("file.png"),
+                    "icon": self._get_icon_path("vred.png"),
                     "item_type": "file.bgeo",
                 },
                 "Alembic Cache": {

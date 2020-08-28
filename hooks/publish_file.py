@@ -192,6 +192,7 @@ class BasicFilePublishPlugin(HookBaseClass):
             "File Types": {
                 "type": "list",
                 "default": [
+                    ["BGEO Cache", "bgeo", "bgeo.sc"],
                     ["Alias File", "wire"],
                     ["Alembic Cache", "abc"],
                     ["3dsmax Scene", "max"],
