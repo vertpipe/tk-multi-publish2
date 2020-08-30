@@ -568,6 +568,8 @@ class BasicFilePublishPlugin(HookBaseClass):
         if work_template and publish_template:
             if work_template.validate(path):
                 work_fields = work_template.get_fields(path)
+            else:
+                self.logger.warning("Could not validate work_template property, check if it is configured correctly.")
 
             missing_keys = publish_template.missing_keys(work_fields)
 
