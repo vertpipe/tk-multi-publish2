@@ -254,7 +254,21 @@ class BasicSceneCollector(HookBaseClass):
         if is_sequence:
             # include an indicator that this is an image sequence and the known
             # file that belongs to this sequence
-            file_item.properties["sequence_paths"] = [path]
+            folder = publisher.util.get_file_path_components(evaluated_path)["folder"]
+
+            frame_sequences = publisher.util.get_frame_sequences(folder)
+
+            self.logger.debug("Using following frame sequences: %s" % frame_sequences)
+
+            try:
+                for (sequence_path, sequence_files) in frame_sequences:
+                    file_item.properties["sequence_paths"] = sequence_files
+                    self.logger.debug("Added %s to sequence_paths" % (sequence_files)) 
+            except Exception as e:
+                self.logger.warning("Something happened while registering file sequences.")
+                self.logger.error(e)
+
+            self.logger.debug("Set sequence_paths to %s" % (file_item.properties["sequence_paths"]))
 
         self.logger.info("Collected file: %s" % (evaluated_path,))
 
