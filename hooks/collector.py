@@ -75,6 +75,11 @@ class BasicSceneCollector(HookBaseClass):
 
             # do this once to avoid unnecessary processing
             self._common_file_info = {
+                "Sculpt Object File": {
+                    "extensions": ["obj"],
+                    "icon": self._get_icon_path("file.png"),
+                    "item_type": "file.obj"
+                },
                 "Alias File": {
                     "extensions": ["wire"],
                     "icon": self._get_icon_path("alias.png"),
@@ -168,7 +173,12 @@ class BasicSceneCollector(HookBaseClass):
         The type string should be one of the data types that toolkit accepts as
         part of its environment configuration.
         """
-        return {}
+        return {
+            "Sculpt Publish Template": {
+                "type": "template",
+                "description": "Publish template for obj files."
+            }
+        }
 
     def process_current_session(self, settings, parent_item):
         """
@@ -200,9 +210,9 @@ class BasicSceneCollector(HookBaseClass):
             self._collect_folder(parent_item, path)
             return None
         else:
-            return self._collect_file(parent_item, path)
+            return self._collect_file(settings, parent_item, path)
 
-    def _collect_file(self, parent_item, path, frame_sequence=False):
+    def _collect_file(self, settings, parent_item, path, frame_sequence=False):
         """
         Process the supplied file path.
 
@@ -250,6 +260,11 @@ class BasicSceneCollector(HookBaseClass):
         # all we know about the file is its path. set the path in its
         # properties for the plugins to use for processing.
         file_item.properties["path"] = evaluated_path
+
+        # for obj files specifically, populate with publish template
+        if item_type.startswith("file.obj"):
+            publish_template = settings.get("Sculpt Publish Template")
+            file_item.properties["publish_template"] = publisher.engine.get_template_by_name(publish_template.value)
 
         if is_sequence:
             # include an indicator that this is an image sequence and the known
