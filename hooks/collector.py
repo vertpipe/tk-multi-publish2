@@ -75,7 +75,7 @@ class BasicSceneCollector(HookBaseClass):
 
             # do this once to avoid unnecessary processing
             self._common_file_info = {
-                "Sculpt Object File": {
+                "Object File": {
                     "extensions": ["obj"],
                     "icon": self._get_icon_path("file.png"),
                     "item_type": "file.obj"
@@ -173,12 +173,7 @@ class BasicSceneCollector(HookBaseClass):
         The type string should be one of the data types that toolkit accepts as
         part of its environment configuration.
         """
-        return {
-            "Sculpt Publish Template": {
-                "type": "template",
-                "description": "Publish template for obj files."
-            }
-        }
+        return {}
 
     def process_current_session(self, settings, parent_item):
         """
@@ -260,11 +255,6 @@ class BasicSceneCollector(HookBaseClass):
         # all we know about the file is its path. set the path in its
         # properties for the plugins to use for processing.
         file_item.properties["path"] = evaluated_path
-
-        # for obj files specifically, populate with publish template
-        if item_type.startswith("file.obj"):
-            publish_template = settings.get("Sculpt Publish Template")
-            file_item.properties["publish_template"] = publisher.engine.get_template_by_name(publish_template.value)
 
         if is_sequence:
             # include an indicator that this is an image sequence and the known
