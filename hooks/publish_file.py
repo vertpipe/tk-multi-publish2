@@ -192,7 +192,6 @@ class BasicFilePublishPlugin(HookBaseClass):
             "File Types": {
                 "type": "list",
                 "default": [
-                    ["Object File", "obj"],
                     ["BGEO Cache", "bgeo", "bgeo.sc"],
                     ["Alias File", "wire"],
                     ["Alembic Cache", "abc"],
@@ -570,7 +569,9 @@ class BasicFilePublishPlugin(HookBaseClass):
             if work_template.validate(path):
                 work_fields = work_template.get_fields(path)
             else:
-                self.logger.warning("Could not validate work_template property, check if it is configured correctly.")
+                self.logger.warning(
+                    "Could not validate work_template property, check if it is configured correctly."
+                )
 
             missing_keys = publish_template.missing_keys(work_fields)
 

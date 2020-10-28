@@ -75,11 +75,6 @@ class BasicSceneCollector(HookBaseClass):
 
             # do this once to avoid unnecessary processing
             self._common_file_info = {
-                "Object File": {
-                    "extensions": ["obj"],
-                    "icon": self._get_icon_path("file.png"),
-                    "item_type": "file.obj"
-                },
                 "Alias File": {
                     "extensions": ["wire"],
                     "icon": self._get_icon_path("alias.png"),
@@ -205,9 +200,9 @@ class BasicSceneCollector(HookBaseClass):
             self._collect_folder(parent_item, path)
             return None
         else:
-            return self._collect_file(settings, parent_item, path)
+            return self._collect_file(parent_item, path)
 
-    def _collect_file(self, settings, parent_item, path, frame_sequence=False):
+    def _collect_file(self, parent_item, path, frame_sequence=False):
         """
         Process the supplied file path.
 
@@ -268,12 +263,16 @@ class BasicSceneCollector(HookBaseClass):
             try:
                 for (sequence_path, sequence_files) in frame_sequences:
                     file_item.properties["sequence_paths"] = sequence_files
-                    self.logger.debug("Added %s to sequence_paths" % (sequence_files)) 
+                    self.logger.debug("Added %s to sequence_paths" % (sequence_files))
             except Exception as e:
-                self.logger.warning("Something happened while registering file sequences.")
+                self.logger.warning(
+                    "Something happened while registering file sequences."
+                )
                 self.logger.error(e)
 
-            self.logger.debug("Set sequence_paths to %s" % (file_item.properties["sequence_paths"]))
+            self.logger.debug(
+                "Set sequence_paths to %s" % (file_item.properties["sequence_paths"])
+            )
 
         self.logger.info("Collected file: %s" % (evaluated_path,))
 
@@ -427,7 +426,9 @@ class BasicSceneCollector(HookBaseClass):
 
         # everything should be populated. return the dictionary
         return dict(
-            item_type=item_type, type_display=type_display, icon_path=icon_path,
+            item_type=item_type,
+            type_display=type_display,
+            icon_path=icon_path,
         )
 
     def _get_icon_path(self, icon_name, icons_folders=None):
