@@ -21,7 +21,8 @@ HookBaseClass = sgtk.get_hook_baseclass()
 # this implementation assumes the version number is of the form 'v###'
 # coming just before an optional extension in the file/folder name and just
 # after a '.', '_', or '-'.
-VERSION_REGEX = re.compile(r"(.*)([._-])v(\d+)\.?([^.]+)?$", re.IGNORECASE)
+# VERSION_REGEX = re.compile(r"(.*)([._-])v(\d+)\.?([^.]+)?$", re.IGNORECASE)
+VERSION_REGEX = re.compile(r"(.*)([._-])v(\d+)\.?([^.]+)?\.?([^.]+)?", re.IGNORECASE)
 
 # a regular expression used to extract the frame number from the file.
 # this implementation assumes the version number is of the form '.####'
@@ -74,7 +75,10 @@ class BasicPathInfo(HookBaseClass):
         if version_pattern_match:
             # found a version number, use the other groups to remove it
             prefix = version_pattern_match.group(1)
-            extension = version_pattern_match.group(4) or ""
+            if len(version_pattern_match.groups()) == 5:
+                extension = version_pattern_match.group(5)
+            else:
+                extension = version_pattern_match.group(4) or ""
             if extension:
                 publish_name = "%s.%s" % (prefix, extension)
             else:
