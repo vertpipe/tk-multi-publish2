@@ -193,6 +193,7 @@ class BasicFilePublishPlugin(HookBaseClass):
                 "type": "list",
                 "default": [
                     ["BGEO Cache", "bgeo", "bgeo.sc"],
+                    ["USD", "usd", "usda", "usdc"],
                     ["Alias File", "wire"],
                     ["Alembic Cache", "abc"],
                     ["3dsmax Scene", "max"],

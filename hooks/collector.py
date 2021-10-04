@@ -125,6 +125,11 @@ class BasicSceneCollector(HookBaseClass):
                     "icon": self._get_icon_path("photoshop.png"),
                     "item_type": "file.photoshop",
                 },
+                "USD": {
+                    "extensions": ["usd"],
+                    "icon": self._get_icon_path("file.png"),
+                    "item_type": "file.usd",
+                },
                 "VRED Scene": {
                     "extensions": ["vpb", "vpe", "osb"],
                     "icon": self._get_icon_path("vred.png"),
