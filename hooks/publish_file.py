@@ -192,6 +192,8 @@ class BasicFilePublishPlugin(HookBaseClass):
             "File Types": {
                 "type": "list",
                 "default": [
+                    ["BGEO Cache", "bgeo", "bgeo.sc"],
+                    ["USD", "usd", "usda", "usdc"],
                     ["Alias File", "wire"],
                     ["Alembic Cache", "abc"],
                     ["3dsmax Scene", "max"],
@@ -575,6 +577,10 @@ class BasicFilePublishPlugin(HookBaseClass):
         if work_template and publish_template:
             if work_template.validate(path):
                 work_fields = work_template.get_fields(path)
+            else:
+                self.logger.warning(
+                    "Could not validate work_template property, check if it is configured correctly."
+                )
 
             missing_keys = publish_template.missing_keys(work_fields)
 
@@ -839,7 +845,19 @@ class BasicFilePublishPlugin(HookBaseClass):
             try:
                 publish_folder = os.path.dirname(publish_file)
                 ensure_folder_exists(publish_folder)
-                copy_file(work_file, publish_file)
+
+                linkFileExtensions = ('.exr', '.png', '.jpg')
+
+                if work_file.endswith(linkFileExtensions):
+                    # For Nuke, this only works on Windows on Nuke 13+ because of Python 3
+                    try:
+                        os.link(work_file, publish_file)
+                        self.logger.debug("Linked files.")
+                    except:
+                        copy_file(work_file, publish_file)
+                        self.logger.debug("Copied files.")
+                else:
+                    copy_file(work_file, publish_file)
             except Exception:
                 raise Exception(
                     "Failed to copy work file from '%s' to '%s'.\n%s"
